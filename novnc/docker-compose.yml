@@ -1,14 +1,5 @@
 version: '2'
 services:
-  ide:
-    image: psharkey/intellij:latest
-#    image: psharkey/netbeans-8.1:latest
-    environment:
-      - DISPLAY=novnc:0.0
-    depends_on:
-      - novnc
-    networks:
-      - x11
   novnc:  
     image: psharkey/novnc:latest
     environment:
