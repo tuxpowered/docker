@@ -15,7 +15,6 @@ ENV HOME=/root \
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY crashplan.exp /
-COPY crashplan.sh /
 COPY crashplan_install.sh /
 COPY entrypoint.sh /
 
