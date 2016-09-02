@@ -38,7 +38,7 @@ RUN apk --update add bash wget ca-certificates openssl findutils coreutils procp
 RUN apk --update --upgrade add \
 	libnotify \
 	gconf \
-	libnss
+	nss
 	
 RUN /crashplan_install.sh
 
