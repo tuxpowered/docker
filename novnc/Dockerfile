@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM frolvlad/alpine-glibc:alpine-3.4
 
 # Setup demo environment variables
 ENV HOME=/root \
@@ -20,8 +20,10 @@ COPY entrypoint.sh /
 
 # x11vnc, xterm is in testing repo
 RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk add cpio --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/
 
 # Install git, supervisor, VNC, & X11 packages
+RUN apk --update bash wget ca-certificates openssl findutils coreutils procps expect sed
 RUN apk --update --upgrade add \
     bash \
 	fluxbox \
@@ -36,8 +38,7 @@ RUN apk --update --upgrade add \
 RUN apk --update --upgrade add \
 	libnotify4 \
 	libgconf-2-4 \
-	libnss3 \
-	expect
+	libnss3 
 	
 RUN /crashplan_install.sh
 
