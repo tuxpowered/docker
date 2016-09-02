@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.4
 
 # Setup demo environment variables
 ENV HOME=/root \
@@ -19,7 +19,7 @@ COPY crashplan_install.sh /
 COPY entrypoint.sh /
 
 # x11vnc is in testing repo
-RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+#RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # Install git, supervisor, VNC, & X11 packages
 RUN apk --update --upgrade add \
@@ -28,7 +28,7 @@ RUN apk --update --upgrade add \
 	git \
 	wget \
 	supervisor \
-	x11vnc \
+	libvncserver \
 	xterm \
 	xvfb
 
