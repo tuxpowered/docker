@@ -20,11 +20,8 @@ COPY entrypoint.sh /
 
 # x11vnc, xterm is in testing repo
 RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk add cpio --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/
-
-# Install git, supervisor, VNC, & X11 packages
-RUN apk --update bash wget ca-certificates openssl findutils coreutils procps expect sed
 RUN apk --update --upgrade add \
+	cpio --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
     bash \
 	fluxbox \
 	git \
@@ -34,11 +31,14 @@ RUN apk --update --upgrade add \
 	xterm \
 	xvfb
 
+# Install git, supervisor, VNC, & X11 packages
+RUN apk --update add bash wget ca-certificates openssl findutils coreutils procps expect sed
+
 # Install updates Crashplan
 RUN apk --update --upgrade add \
-	libnotify4 \
-	libgconf-2-4 \
-	libnss3 
+	libnotify \
+	gconf \
+	libnss
 	
 RUN /crashplan_install.sh
 
