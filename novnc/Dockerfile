@@ -18,6 +18,10 @@ COPY crashplan.exp /
 COPY crashplan_install.sh /
 COPY entrypoint.sh /
 
+RUN chmod 0755 /crashplan.exp
+RUN chmod 0755 /crashplan_install.sh
+RUN chmod 0755 /entrypoint.sh
+
 # x11vnc, xterm is in testing repo
 RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk --update --upgrade add \
@@ -28,6 +32,7 @@ RUN apk --update --upgrade add \
 	wget \
 	supervisor \
 	libvncserver \
+	x11vnc \
 	xterm \
 	xvfb
 
@@ -39,7 +44,7 @@ RUN apk --update --upgrade add \
 	libnotify \
 	gconf \
 	nss
-RUN chmod +x /*.sh /*.exp
+	
 RUN /crashplan_install.sh
 
 # Clone noVNC from github
