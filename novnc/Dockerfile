@@ -22,7 +22,7 @@ COPY entrypoint.sh /
 RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk --update --upgrade add \
 	cpio --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
-    bash \
+    	bash \
 	fluxbox \
 	git \
 	wget \
@@ -40,7 +40,7 @@ RUN apk --update --upgrade add \
 	gconf \
 	nss
 	
-RUN chmod +x /*.sh && /crashplan_install.sh
+RUN /crashplan_install.sh
 
 # Clone noVNC from github
 RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
