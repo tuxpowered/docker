@@ -17,13 +17,11 @@ else
 fi
 
 mkdir -p /usr/share/applications
-cd /tmp/crashplan && \
-    mv /crashplan.exp /tmp/crashplan && \
-    cp /crashplan_install.sh /tmp/crashplan && \
-    sync && \
-    echo $(pwd) \
-    ls -l \
-    /tmp/crashplan/crashplan.exp || exit $?
+cd /tmp/crashplan
+mv /crashplan.exp /tmp/crashplan
+cp /crashplan_install.sh /tmp/crashplan
+sync
+/tmp/crashplan/crashplan.exp || exit $?
 rm -rf /usr/share/applications
 
 # Bind the UI port 4243 to the container ip
