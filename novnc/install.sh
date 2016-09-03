@@ -1,17 +1,39 @@
 #!/bin/sh
-set -e
-mkdir -p /usr/share/applications
-mkdir -p /tmp/crashplan
-wget -O- ${CRASHPLAN_INSTALLER} | tar -xz --strip-components=1 -C /tmp/crashplan
 
-cd /tmp/crashplan && /tmp/crashplan.exp || exit $?
-cd / 
+set -e
+
+#install_deps='expect sed'
+#apk add --update bash wget ca-certificates openssl findutils coreutils procps $install_deps
+#apk add cpio --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/
+
+mkdir /tmp/crashplan
+
+wget -O- ${CRASHPLAN_INSTALLER} \
+    | tar -xz --strip-components=1 -C /tmp/crashplan
+
+
+mkdir -p /usr/share/applications
+cd /tmp/crashplan && \
+chmod +x /tmp/installation/crashplan.exp && \
+sync && \
+/tmp/installation/crashplan.exp || exit $?
+
+cd / && \
+rm -rf /tmp/crashplan
+rm -rf /usr/share/applications
 
 # Bind the UI port 4243 to the container ip
 sed -i "s|</servicePeerConfig>|</servicePeerConfig>\n\t<serviceUIConfig>\n\t\t\
 <serviceHost>0.0.0.0</serviceHost>\n\t\t<servicePort>4243</servicePort>\n\t\t\
 <connectCheck>0</connectCheck>\n\t\t<showFullFilePath>false</showFullFilePath>\n\t\
 </serviceUIConfig>|g" /usr/local/crashplan/conf/default.service.xml
+
+# Install launchers
+#cp /tmp/installation/entrypoint.sh /tmp/installation/crashplan.sh /
+#chmod +rx /entrypoint.sh /crashplan.sh
+
+# Remove unneccessary package
+apk del $install_deps
 
 # Remove unneccessary files and directories
 rm -rf /usr/local/crashplan/jre/lib/plugin.jar \
@@ -32,7 +54,5 @@ rm -rf /usr/local/crashplan/jre/lib/plugin.jar \
    /usr/local/crashplan/jre/lib/amd64/libjfx*.so
 
 rm -rf /boot /home /lost+found /media /mnt /run /srv
-rm -rf /usr/share/applications
-rm -rf /tmp/crashplan
 rm -rf /usr/local/crashplan/log
 rm -rf /var/cache/apk/*
