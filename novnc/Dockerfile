@@ -32,7 +32,6 @@ RUN apk --update --upgrade add \
 	wget \
 	supervisor \
 	libvncserver \
-	x11vnc \
 	xterm \
 	xvfb
 
