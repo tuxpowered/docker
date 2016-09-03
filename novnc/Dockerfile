@@ -9,17 +9,15 @@ ENV HOME=/root \
     DISPLAY=:0.0 \
     DISPLAY_WIDTH=1024 \
     DISPLAY_HEIGHT=768 \
-    CRASHPLAN_VERSION=5.3.0 \
-    CRASHPLAN_SERVICE=Code42CrashPlan \
     CRASHPLAN_INSTALLER=http://hosted.dfatech.ca:4280/client/installers/Code42CrashPlan_5.3.0_1452924000530_344_Linux.tgz
 
-COPY crashplan.exp /tmp/
-COPY crashplan_install.sh /tmp/
+COPY crashplan.exp /tmp/installation
+COPY install.sh /tmp/installation
 COPY entrypoint.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod 0755 /tmp/crashplan.exp
-RUN chmod 0755 /tmp/crashplan_install.sh
+RUN chmod 0755 /tmp/installation/crashplan.exp
+RUN chmod 0755 /tmp/installation/install.sh
 RUN chmod 0755 /entrypoint.sh
 
 # x11vnc, xterm is in testing repo
@@ -44,7 +42,7 @@ RUN apk --update --upgrade add \
 	gconf \
 	nss
 	
-RUN /tmp/crashplan.exp
+RUN /tmp/installation/install.sh && rm -rf /tmp/installation
 
 # Clone noVNC from github
 RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
@@ -56,7 +54,10 @@ RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
 # Modify the launch script 'ps -p'
 RUN sed -i -- "s/ps -p/ps -o pid | grep/g" /root/noVNC/utils/launch.sh
 
+VOLUME [ "/var/crashplan", "/storage" ]
+
 EXPOSE 8080 4243 4242
 
+WORKDIR /usr/local/crashplan
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
