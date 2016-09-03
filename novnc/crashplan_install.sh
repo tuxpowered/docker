@@ -18,8 +18,11 @@ fi
 
 mkdir -p /usr/share/applications
 cd /tmp/crashplan && \
-    mv /crashplan.exp /crashplan_install.sh /tmp/crashplan && \
-    sync && sync &&\
+    mv /crashplan.exp && \
+    cp /crashplan_install.sh /tmp/crashplan && \
+    sync && \
+    echo $(pwd) \
+    ls -l \
     /tmp/crashplan/crashplan.exp || exit $?
 rm -rf /usr/share/applications
 
@@ -49,5 +52,4 @@ rm -rf /usr/local/crashplan/jre/lib/plugin.jar \
 
 rm -rf /boot /home /lost+found /media /mnt /run /srv
 rm -rf /usr/local/crashplan/log
-rm -rf /tmp/crashplan
 rm -rf /var/cache/apk/*
