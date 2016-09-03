@@ -8,6 +8,7 @@ else
     SVC_LEVEL="CrashPlan"
 fi
 
+mkdir -p /usr/share/applications
 mkdir -p /tmp/crashplan
 if [ -n "${CRASHPLAN_INSTALLER}" ]; then
     wget -O- ${CRASHPLAN_INSTALLER} | tar -xz --strip-components=1 -C /tmp/crashplan
@@ -16,13 +17,13 @@ else
     | tar -xz --strip-components=1 -C /tmp/crashplan
 fi
 
-mkdir -p /usr/share/applications
-cd /tmp/crashplan
-cp /crashplan.exp /tmp/crashplan
-cp /crashplan_install.sh /tmp/crashplan
-sync
-/tmp/crashplan/crashplan.exp || exit $?
-rm -rf /usr/share/applications
+
+#cd /tmp/crashplan
+#cp /crashplan.exp /tmp/crashplan
+#cp /crashplan_install.sh /tmp/crashplan
+#sync
+#/tmp/crashplan/crashplan.exp || exit $?
+
 
 # Bind the UI port 4243 to the container ip
 sed -i "s|</servicePeerConfig>|</servicePeerConfig>\n\t<serviceUIConfig>\n\t\t\
@@ -49,5 +50,6 @@ rm -rf /usr/local/crashplan/jre/lib/plugin.jar \
    /usr/local/crashplan/jre/lib/amd64/libjfx*.so
 
 rm -rf /boot /home /lost+found /media /mnt /run /srv
+rm -rf /usr/share/applications
 rm -rf /usr/local/crashplan/log
 rm -rf /var/cache/apk/*
