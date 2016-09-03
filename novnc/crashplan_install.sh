@@ -1,29 +1,11 @@
 #!/bin/sh
 set -e
-
-# Determine Crashplan Service Level to install (home or business)
-if [ "$CRASHPLAN_SERVICE" = "PRO" ]; then
-    SVC_LEVEL="CrashPlanPRO"
-else
-    SVC_LEVEL="CrashPlan"
-fi
-
 mkdir -p /usr/share/applications
 mkdir -p /tmp/crashplan
-if [ -n "${CRASHPLAN_INSTALLER}" ]; then
-    wget -O- ${CRASHPLAN_INSTALLER} | tar -xz --strip-components=1 -C /tmp/crashplan
-else
-    wget -O- http://download.code42.com/installs/linux/install/${SVC_LEVEL}/${SVC_LEVEL}_${CRASHPLAN_VERSION}_Linux.tgz \
-    | tar -xz --strip-components=1 -C /tmp/crashplan
-fi
+wget -O- ${CRASHPLAN_INSTALLER} | tar -xz --strip-components=1 -C /tmp/crashplan
 
-
-#cd /tmp/crashplan
-#cp /crashplan.exp /tmp/crashplan
-#cp /crashplan_install.sh /tmp/crashplan
-#sync
-#/tmp/crashplan/crashplan.exp || exit $?
-
+cd /tmp/crashplan && /tmp/crashplan.exp || exit $?
+cd / 
 
 # Bind the UI port 4243 to the container ip
 sed -i "s|</servicePeerConfig>|</servicePeerConfig>\n\t<serviceUIConfig>\n\t\t\
@@ -51,5 +33,6 @@ rm -rf /usr/local/crashplan/jre/lib/plugin.jar \
 
 rm -rf /boot /home /lost+found /media /mnt /run /srv
 rm -rf /usr/share/applications
+rm -rf /tmp/crashplan
 rm -rf /usr/local/crashplan/log
 rm -rf /var/cache/apk/*
