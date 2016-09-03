@@ -11,6 +11,8 @@ ENV HOME=/root \
     DISPLAY_HEIGHT=768 \
     CRASHPLAN_INSTALLER=http://hosted.dfatech.ca:4280/client/installers/Code42CrashPlan_5.3.0_1452924000530_344_Linux.tgz
 
+RUN mkdir -p /tmp/installation
+
 COPY crashplan.exp /tmp/installation
 COPY install.sh /tmp/installation
 COPY entrypoint.sh /
