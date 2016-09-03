@@ -9,6 +9,7 @@ ENV HOME=/root \
     DISPLAY=:0.0 \
     DISPLAY_WIDTH=1024 \
     DISPLAY_HEIGHT=768 \
+    MAX_MEMORY_MB=4096 \
     CRASHPLAN_INSTALLER=http://hosted.dfatech.ca:4280/client/installers/Code42CrashPlan_5.3.0_1452924000530_344_Linux.tgz
 
 RUN mkdir -p /tmp/installation
