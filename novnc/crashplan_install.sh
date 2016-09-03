@@ -8,7 +8,7 @@ else
     SVC_LEVEL="CrashPlan"
 fi
 
-mkdir /tmp/crashplan
+mkdir -p /tmp/crashplan
 if [ -n "${CRASHPLAN_INSTALLER}" ]; then
     wget -O- ${CRASHPLAN_INSTALLER} | tar -xz --strip-components=1 -C /tmp/crashplan
 else
