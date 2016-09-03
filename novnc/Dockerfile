@@ -39,7 +39,7 @@ RUN apk --update --upgrade add \
 	libnotify \
 	gconf \
 	nss
-	
+RUN chmod +x /*.sh /*.exp
 RUN /crashplan_install.sh
 
 # Clone noVNC from github
