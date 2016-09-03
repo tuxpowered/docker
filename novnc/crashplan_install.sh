@@ -18,7 +18,7 @@ fi
 
 mkdir -p /usr/share/applications
 cd /tmp/crashplan && \
-    mv /crashplan.exp && \
+    mv /crashplan.exp /tmp/crashplan && \
     cp /crashplan_install.sh /tmp/crashplan && \
     sync && \
     echo $(pwd) \
