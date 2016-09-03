@@ -13,13 +13,13 @@ ENV HOME=/root \
     CRASHPLAN_SERVICE=Code42CrashPlan \
     CRASHPLAN_INSTALLER=http://hosted.dfatech.ca:4280/client/installers/Code42CrashPlan_5.3.0_1452924000530_344_Linux.tgz
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY crashplan.exp /
-COPY crashplan_install.sh /
+COPY crashplan.exp /tmp/
+COPY crashplan_install.sh /tmp/
 COPY entrypoint.sh /
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod 0755 /crashplan.exp
-RUN chmod 0755 /crashplan_install.sh
+RUN chmod 0755 /tmp/crashplan.exp
+RUN chmod 0755 /tmp/crashplan_install.sh
 RUN chmod 0755 /entrypoint.sh
 
 # x11vnc, xterm is in testing repo
@@ -44,7 +44,7 @@ RUN apk --update --upgrade add \
 	gconf \
 	nss
 	
-RUN /crashplan.exp
+RUN /tmp/crashplan_install.sh
 
 # Clone noVNC from github
 RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
