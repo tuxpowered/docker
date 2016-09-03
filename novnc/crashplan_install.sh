@@ -18,7 +18,7 @@ fi
 
 mkdir -p /usr/share/applications
 cd /tmp/crashplan
-mv /crashplan.exp /tmp/crashplan
+cp /crashplan.exp /tmp/crashplan
 cp /crashplan_install.sh /tmp/crashplan
 sync
 /tmp/crashplan/crashplan.exp || exit $?
