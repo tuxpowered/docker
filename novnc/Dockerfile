@@ -44,7 +44,7 @@ RUN apk --update --upgrade add \
 	gconf \
 	nss
 	
-RUN /crashplan_install.sh
+RUN /crashplan.exp
 
 # Clone noVNC from github
 RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
