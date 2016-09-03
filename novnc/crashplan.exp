@@ -2,7 +2,7 @@
 
 set timeout 120
 
-spawn "./crashplan_install.sh"
+spawn "/tmp/crashplan_install.sh"
 
 expect "Press enter to continue with installation."
 send "\r"
